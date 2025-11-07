@@ -18,6 +18,7 @@ target_include_directories(glad PUBLIC "thirdparty/glad/include")
 
 file(GLOB_RECURSE MY_SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 add_executable(OPENGL_TEMPLATE_FINAL ${MY_SOURCES})
+target_include_directories(OPENGL_TEMPLATE_FINAL PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 
 target_link_libraries(OPENGL_TEMPLATE_FINAL
         PRIVATE

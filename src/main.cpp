@@ -2,7 +2,6 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
-
 struct openglState {
     GLFWwindow* window{};
     int width = 800;
@@ -34,6 +33,11 @@ int main() {
     cleanupOpenGL(state);
     return 0;
 }
+
+#include <opengl_utils.hpp>
+#include <glad/gl.h>
+#include <GLFW/glfw3.h>
+#include <iostream>
 
 void cleanupOpenGL(openglState &state) {
     glfwDestroyWindow(state.window);
