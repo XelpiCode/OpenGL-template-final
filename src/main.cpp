@@ -5,9 +5,15 @@
 #include <ostream>
 
 float vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-     0.5f, -0.5f, 0.0f,
-     0.0f,  0.5f, 0.0f
+    0.5f,  0.5f, 0.0f,  // top right
+    0.5f, -0.5f, 0.0f,  // bottom right
+   -0.5f, -0.5f, 0.0f,  // bottom left
+   -0.5f,  0.5f, 0.0f   // top left
+};
+
+unsigned int indices[] = {
+    0, 1, 3,   // first triangle
+    1, 2, 3    // second triangle
 };
 
 const char *vertexShaderSource = "#version 460 core\n"
@@ -78,13 +84,14 @@ int main() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-    // U need to use glUseProgram to actually use the shader, it's at the bottom of VAO
-
     unsigned int VBO;
     glGenBuffers(1, &VBO);
 
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
+
+    unsigned int EBO;
+    glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
 
@@ -93,6 +100,10 @@ int main() {
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
     glEnableVertexAttribArray(0);
+
+    // EBO binding
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // unbind buffer
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -109,7 +120,7 @@ int main() {
 
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
         glfwSwapBuffers(state.window);
         glfwPollEvents();
