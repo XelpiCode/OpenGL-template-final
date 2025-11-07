@@ -29,17 +29,7 @@ int main() {
     auto state = openglState();
     if (!initOpenGL(state)) cleanupOpenGL(state);
 
-#pragma region VBO
-
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-#pragma endregion
-
-#pragma region shader
+#pragma region shadersAndBuffers
 
     // Creating shaders
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -66,7 +56,7 @@ int main() {
     glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fragmentSuccess);
     if (!fragmentSuccess) {
         glGetShaderInfoLog(fragmentShader, 1024, nullptr, infoLogFrag);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLogFrag << std::endl;
+        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLogFrag << std::endl;
     }
 
     // Attaching and linking shaders into a program
@@ -88,15 +78,25 @@ int main() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-#pragma endregion
+    // U need to use glUseProgram to actually use the shader, it's at the bottom of VAO
 
-#pragma region VAO
+    unsigned int VBO;
+    glGenBuffers(1, &VBO);
+
+    unsigned int VAO;
+    glGenVertexArrays(1, &VAO);
+
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
     glEnableVertexAttribArray(0);
 
-    // After setting up the shaders and strides, use the shader
-    glUseProgram(shaderProgram);
+    // unbind buffer
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindVertexArray(0);
 
 #pragma endregion
 
@@ -106,6 +106,10 @@ int main() {
 
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        glUseProgram(shaderProgram);
+        glBindVertexArray(VAO);
+        glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(state.window);
         glfwPollEvents();
