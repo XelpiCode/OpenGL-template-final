@@ -84,6 +84,7 @@ int main() {
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
+    // Making buffer objects
     unsigned int VBO;
     glGenBuffers(1, &VBO);
 
@@ -93,6 +94,7 @@ int main() {
     unsigned int EBO;
     glGenBuffers(1, &EBO);
 
+    // Binding buffers
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
