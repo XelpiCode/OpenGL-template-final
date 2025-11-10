@@ -2,7 +2,7 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <opengl_utils.hpp>
-#include <ostream>
+#include <shader.hpp>
 
 float vertices[] = {
     // positions         // colors
@@ -15,77 +15,14 @@ unsigned int indices[] = {
     0, 1, 2,   // first triangle
 };
 
-const char *vertexShaderSource = "#version 460 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "layout (location = 1) in vec3 aColor;\n"
-    "out vec3 ourColor;\n"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(aPos, 1.0);\n"
-    "   ourColor = aColor;\n"
-    "}\0";
-
-const char *fragmentShaderSource = "#version 460 core\n"
-    "out vec4 FragColor;\n"
-    "in vec3 ourColor;\n"
-    "void main()\n"
-    "{\n"
-    "   FragColor = vec4(ourColor, 1.0f);\n"
-    "}\0";
-
 int main() {
 
     auto state = openglState();
     if (!initOpenGL(state)) cleanupOpenGL(state);
 
-#pragma region shadersAndBuffers
+    Shader Shader(RESOURCES_PATH "vertex.glsl", RESOURCES_PATH "fragment.glsl");
 
-    // Creating shaders
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
-
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
-
-    // Compiling shaders
-    glCompileShader(vertexShader);
-    glCompileShader(fragmentShader);
-
-    // Checking if compiling was successful
-    int vertexSuccess;
-    char infoLogVert[1024];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vertexSuccess);
-    if (!vertexSuccess) {
-        glGetShaderInfoLog(vertexShader, 1024, nullptr, infoLogVert);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLogVert << std::endl;
-    }
-
-    int fragmentSuccess;
-    char infoLogFrag[1024];
-    glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &fragmentSuccess);
-    if (!fragmentSuccess) {
-        glGetShaderInfoLog(fragmentShader, 1024, nullptr, infoLogFrag);
-        std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLogFrag << std::endl;
-    }
-
-    // Attaching and linking shaders into a program
-    unsigned int shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
-
-    // checking if linking was successful
-    int programSuccess;
-    char infoLogProgram[1024];
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &programSuccess);
-    if (!programSuccess) {
-        glGetProgramInfoLog(shaderProgram, 1024, nullptr, infoLogProgram);
-        std::cout << "ERROR::SHADER::PROGRAM::COMPILE_STATUS\n" << infoLogProgram << std::endl;
-    }
-
-    //remove shader objects
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+#pragma region Buffers
 
     // Making buffer objects
     unsigned int VBO;
@@ -127,7 +64,7 @@ int main() {
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glUseProgram(shaderProgram);
+        Shader.use();
 
         // to render the triangles
         glBindVertexArray(VAO);
