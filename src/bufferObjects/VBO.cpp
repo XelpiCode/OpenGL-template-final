@@ -1,6 +1,6 @@
 #include <bufferObjects/VBO.hpp>
 
-VBO::VBO(float *vertices) {
+VBO::VBO(float *vertices, GLsizeiptr size) {
 
 };
 
