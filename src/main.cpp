@@ -1,10 +1,11 @@
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb_image/stb_image.h>
 #include <iostream>
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <opengl_utils.hpp>
 #include <shader.hpp>
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image/stb_image.h>
+#include <bufferObjects/VBO.hpp>
 
 
 float vertices[] = {
@@ -31,18 +32,14 @@ int main() {
 #pragma region Buffers
 
     // Making buffer objects
-    unsigned int VBO;
-    glGenBuffers(1, &VBO);
     unsigned int VAO;
     glGenVertexArrays(1, &VAO);
+    VBO VBO(vertices, sizeof(vertices));
     unsigned int EBO;
     glGenBuffers(1, &EBO);
 
     // Binding buffers
     glBindVertexArray(VAO);
-
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
     // Vertex attribute pointers
 

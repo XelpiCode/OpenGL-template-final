@@ -8,7 +8,7 @@ VBO::VBO(const float *vertices, const GLsizeiptr size) {
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 void VBO::Bind() {
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ARRAY_BUFFER, ID);
 };
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
@@ -18,9 +18,12 @@ void VBO::Unbind() {
 
 // NOLINTNEXTLINE(readability-make-member-function-const)
 void VBO::Delete() {
-    glDeleteBuffers(1, &ID);
+    if (ID != 0) {
+        glDeleteBuffers(1, &ID);
+        ID = 0; // Reset ID after deletion to prevent double-free
+    }
 };
 
 VBO::~VBO() {
-    glDeleteBuffers(1, &ID);
+    Delete();
 }

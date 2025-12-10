@@ -7,9 +7,10 @@
 class VAO {
     public:
 
-    GLuint ID;
+    GLuint ID = 0;
 
     VAO();
+    ~VAO();
 
     void LinkAttribute(
         VBO& VBO,
