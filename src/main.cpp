@@ -49,8 +49,8 @@ int main() {
     VAO1.LinkAttribute(VBO1, 2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
     // unbind buffer
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-    glBindVertexArray(0);
+    VBO1.Unbind();
+    VAO1.Unbind();
 
 #pragma endregion
 
