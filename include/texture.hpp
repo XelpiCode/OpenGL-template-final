@@ -5,7 +5,7 @@
 
 class Texture {
     public:
-    GLuint ID;
+    GLuint ID = 0;
     GLenum type;
 
     Texture(
