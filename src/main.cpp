@@ -74,7 +74,7 @@ int main() {
     // load the texture file
     int tetoTxWidth, tetoTxHeight, tetoTxNrChannels;
     unsigned char* tetoTxdata = stbi_load(
-        RESOURCES_PATH "teto.jpg",
+        RESOURCES_PATH "teto.png",
         &tetoTxWidth,
         &tetoTxHeight,
         &tetoTxNrChannels,
@@ -86,11 +86,11 @@ int main() {
         glTexImage2D(
             GL_TEXTURE_2D,
             0,
-            GL_RGB,
+            GL_RGBA,
             tetoTxWidth,
             tetoTxHeight,
             0,
-            GL_RGB,
+            GL_RGBA,
             GL_UNSIGNED_BYTE,
             tetoTxdata
         );
