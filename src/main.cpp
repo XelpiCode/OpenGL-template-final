@@ -32,6 +32,17 @@ int main() {
 
     Shader Shader(RESOURCES_PATH "vertex.glsl", RESOURCES_PATH "fragment.glsl");
 
+#pragma region matrices
+
+    glm::vec4 vector(1.0f, 0.0f, 0.0f, 1.0f);
+    auto trans = glm::mat4(1.0f);
+    trans = glm::scale(trans, glm::vec3(0.5f, 0.5f, 0.5f));\
+    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0,1.0));
+    vector = trans * vector;
+    std::cout << "X:" << vector.x << " Y:"<< vector.y << " Z:" << vector.z << std::endl;
+
+#pragma endregion
+
 #pragma region Buffers
 
     // Making buffer objects
@@ -110,6 +121,9 @@ int main() {
 
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
+
+        GLint transformLoc = glGetUniformLocation(Shader.ID, "transform");
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
         Shader.use();
 
