@@ -114,13 +114,55 @@ int main() {
 
         glBindTexture(GL_TEXTURE_2D, tetoTexture);
 
+        // First draw
         Shader.use();
         auto trans = glm::mat4(1.0f);
 
+        trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
         trans = glm::rotate(trans, (float)glfwGetTime() * 5, glm::vec3(0.0f, 1.0f, 0.0f));
 
         GLint transformLoc = glGetUniformLocation(Shader.ID, "transform");
         glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+        // to render the triangles
+        VAO1.Bind();
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+        // Second draw
+        Shader.use();
+        auto trans2 = glm::mat4(1.0f);
+
+        trans2 = glm::translate(trans2, glm::vec3(-0.5f, 0.5f, 0.0f));
+        trans2 = glm::rotate(trans2, (float)glfwGetTime() * 3, glm::vec3(0.0f, 0.5f, 0.0f));
+
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans2));
+
+        // to render the triangles
+        VAO1.Bind();
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+        // third draw
+        Shader.use();
+        auto trans3 = glm::mat4(1.0f);
+
+        trans3 = glm::translate(trans3, glm::vec3(0.5f, 0.5f, 0.0f));
+        trans3 = glm::rotate(trans3, (float)glfwGetTime() * 2, glm::vec3(1.0f, 0.0f, 0.0f));
+
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans3));
+
+        // to render the triangles
+        VAO1.Bind();
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+        // forth draw
+        Shader.use();
+        auto trans4 = glm::mat4(1.0f);
+
+        trans4 = glm::scale(trans4, glm::vec3(0.5f, 0.5f, 0.0f));
+        trans4 = glm::translate(trans4, glm::vec3(-0.5f, -0.5f, 0.0f));
+        trans4 = glm::rotate(trans4, (float)glfwGetTime() * 3, glm::vec3(0.0f, 0.0f, 1.0f));
+
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans4));
 
         // to render the triangles
         VAO1.Bind();
