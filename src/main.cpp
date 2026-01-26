@@ -1,10 +1,12 @@
 #define STB_IMAGE_IMPLEMENTATION
+#include <algorithm>
 #include <stb_image/stb_image.h>
 #include <iostream>
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <opengl_utils.hpp>
 #include <shader.hpp>
+#include <__msvc_ranges_to.hpp>
 #include <bufferObjects/VBO.hpp>
 #include <bufferObjects/VAO.hpp>
 #include <bufferObjects/EBO.hpp>
@@ -117,8 +119,7 @@ int main() {
 
     Shader.use();
 
-    GLint transformLoc = glGetUniformLocation(Shader.ID, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+    Shader.setMat4("transform", trans);
 
     while (!glfwWindowShouldClose(state.window)) {
 
