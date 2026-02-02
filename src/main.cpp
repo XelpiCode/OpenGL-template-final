@@ -48,9 +48,9 @@ int main() {
     // for coords
     VAO1.LinkAttribute(VBO1, 0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), nullptr);
     // for colors
-    VAO1.LinkAttribute(VBO1, 1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+    VAO1.LinkAttribute(VBO1, 1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(3 * sizeof(float)));
     // for tex coords
-    VAO1.LinkAttribute(VBO1, 2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    VAO1.LinkAttribute(VBO1, 2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), reinterpret_cast<void *>(6 * sizeof(float)));
 
     // unbind buffer
     VBO1.Unbind();
@@ -72,7 +72,7 @@ int main() {
     // projection
     glm::mat4 projection = glm::perspective(
         glm::radians(60.0f),
-        (float)state.width / (float)state.height,
+        static_cast<float>(state.width) / static_cast<float>(state.height),
         0.1f,
         100.0f
     );
