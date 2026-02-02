@@ -1,6 +1,7 @@
-#include <iostream>
-#include <ostream>
 #include <texture.hpp>
+#include <iostream>
+#include <string>
+#include <stb_image/stb_image.h>
 
 static GLint  TexWrapMap[] = {
     GL_REPEAT,
@@ -32,8 +33,8 @@ Texture::Texture(
     if (wrap == TexWrap::ClampToBorder) {
         if (!borderColor) { borderColor = glm::vec4(0.0f, 0.0f, 0.0f, 0.0f); }
 
-        // set wrapping for x and y (s and t) with border
-        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+        // set border color
+        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, glm::value_ptr(*borderColor));
     }
 
     // set wrapping for x and y (s and t)

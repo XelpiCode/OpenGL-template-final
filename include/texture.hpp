@@ -1,10 +1,10 @@
 #pragma once
 
-#include <stb_image/stb_image.h>
 #include <glad/gl.h>
 #include <string>
 #include <optional>
 #include <glm/vec4.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 enum class TexFilter {
     Nearest,
