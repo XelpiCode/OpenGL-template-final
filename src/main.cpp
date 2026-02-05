@@ -116,10 +116,6 @@ int main() {
 
 #pragma endregion
 
-    #pragma region camera
-
-    constexpr float radius = 10.0f;
-
     // projection
     glm::mat4 projection = glm::perspective(
         glm::radians(60.0f),
@@ -127,8 +123,6 @@ int main() {
         0.1f,
         100.0f
     );
-
-    #pragma endregion
 
     Shader.use();
 
@@ -159,10 +153,12 @@ int main() {
 
         #pragma endregion
 
-        #pragma region lookAt matrix
+        #pragma region lookAt-matrix
 
+        constexpr float radius = 10.0f;
         auto camX = static_cast<float>(sin(glfwGetTime()) * radius);
         auto camZ = static_cast<float>(cos(glfwGetTime()) * radius);
+
         // view
         auto view = glm::mat4(1.0f);
         view = glm::lookAt(
