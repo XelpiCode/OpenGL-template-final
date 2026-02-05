@@ -116,11 +116,9 @@ int main() {
 
 #pragma endregion
 
-#pragma region matrices
+    #pragma region camera
 
-    // view
-    auto view = glm::mat4(1.0f);
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+    constexpr float radius = 10.0f;
 
     // projection
     glm::mat4 projection = glm::perspective(
@@ -130,12 +128,11 @@ int main() {
         100.0f
     );
 
-#pragma endregion
+    #pragma endregion
 
     Shader.use();
 
     Shader.setMat4("projection", projection);
-    Shader.setMat4("view", view);
 
     while (!glfwWindowShouldClose(state.window)) {
 
@@ -152,20 +149,31 @@ int main() {
         tetoTex.Bind(1);
         Shader.setInt("tetoTex", 1);
 
+        #pragma region model matrix
 
         // model
         auto model = glm::mat4(1.0f);
-        model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::scale(model, glm::vec3(2.0f));
         model = glm::scale(model, glm::vec3(0.8f));
-        model = glm::rotate(
-            model,
-            static_cast<float>(glfwGetTime()) * glm::radians(50.0f),
-            glm::vec3(0.5f, 1.0f, 0.0f)
-        );
         Shader.setMat4("model", model);
 
-        // to render the triangles
+        #pragma endregion
+
+        #pragma region lookAt matrix
+
+        auto camX = static_cast<float>(sin(glfwGetTime()) * radius);
+        auto camZ = static_cast<float>(cos(glfwGetTime()) * radius);
+        // view
+        auto view = glm::mat4(1.0f);
+        view = glm::lookAt(
+            glm::vec3(camX, 0.0, camZ),
+            glm::vec3(0.0f, 0.0f, 0.0f),
+            glm::vec3(0.0f, 1.0f, 0.0f)
+        );
+        Shader.setMat4("view", view);
+
+        #pragma endregion
+
         VAO1.Bind();
 
         // Draw triangles
