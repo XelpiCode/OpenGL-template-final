@@ -31,6 +31,15 @@ bool initOpenGL(openglState &state) {
 
     glViewport(0, 0, state.width, state.height);
 
+    // allow blending of transparent pixels
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    // enable depth buffer
+    glEnable(GL_DEPTH_TEST);
+
+    glfwSetInputMode(state.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
     return initSuccess;
 }
 

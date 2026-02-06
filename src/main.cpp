@@ -82,13 +82,6 @@ int main() {
     auto state = openglState();
     if (!initOpenGL(state)) cleanupOpenGL(state);
 
-    // allow blending of transparent pixels
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    // enable depth buffer
-    glEnable(GL_DEPTH_TEST);
-
     Shader Shader(RESOURCES_PATH "vertex.glsl", RESOURCES_PATH "fragment.glsl");
 
     // camera
