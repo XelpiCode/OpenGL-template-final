@@ -137,6 +137,14 @@ int main() {
         100.0f
     );
 
+    #pragma region camera
+
+    auto cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+    auto cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+    auto cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+    #pragma endregion
+
     Shader.use();
 
     Shader.setMat4("projection", projection);
@@ -164,11 +172,7 @@ int main() {
 
         // view
         auto view = glm::mat4(1.0f);
-        view = glm::lookAt(
-            glm::vec3(camX, 0.0, camZ),
-            glm::vec3(0.0f, 0.0f, 0.0f),
-            glm::vec3(0.0f, 1.0f, 0.0f)
-        );
+        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
         Shader.setMat4("view", view);
 
         #pragma endregion
