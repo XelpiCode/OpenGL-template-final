@@ -79,13 +79,12 @@ int main() {
     float deltaTime = 0.0f;
     float lastFrame = 0.0f;
 
-    auto state = openglState();
+    auto state = openglState(2560, 1440);
+    glfwSetWindowUserPointer(state.window, &state);
+
     if (!initOpenGL(state)) cleanupOpenGL(state);
 
     Shader Shader(RESOURCES_PATH "vertex.glsl", RESOURCES_PATH "fragment.glsl");
-
-    // camera
-    Camera Camera{};
 
     Texture containerTex(RESOURCES_PATH "container.jpg", TexFilter::Linear, TexWrap::Repeat);
     Texture tetoTex(RESOURCES_PATH "teto.png", TexFilter::Linear, TexWrap::Repeat);
@@ -144,13 +143,13 @@ int main() {
     while (!glfwWindowShouldClose(state.window)) {
 
         // delta time
-        float currentFrame = glfwGetTime();
+        float currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
         // process input
         processInput(state.window);
-        Camera.processInput(state.window, deltaTime);
+        state.camera.processInput(state.window, deltaTime);
 
         // clear previous frame
         glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
@@ -164,7 +163,7 @@ int main() {
         Shader.setInt("tetoTex", 1);
 
         // view
-        auto view = Camera.getViewMatrix();
+        auto view = state.camera.getViewMatrix();
         Shader.setMat4("view", view);
 
         // use the buffer for drawing stuff

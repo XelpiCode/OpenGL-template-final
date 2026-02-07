@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <opengl_utils.hpp>
 #include <iostream>
+#include <camera.hpp>
 
 void cleanupOpenGL(const openglState &state) {
     glfwDestroyWindow(state.window);
@@ -29,6 +30,8 @@ bool initOpenGL(openglState &state) {
         initSuccess = false;
     }
 
+    glfwSetWindowUserPointer(state.window, &state);
+
     glViewport(0, 0, state.width, state.height);
 
     // allow blending of transparent pixels
@@ -38,7 +41,11 @@ bool initOpenGL(openglState &state) {
     // enable depth buffer
     glEnable(GL_DEPTH_TEST);
 
+    // Make cursor invisible
     glfwSetInputMode(state.window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    // call mouse_callback when mouse moves
+    glfwSetCursorPosCallback(state.window, mouseCallback);
 
     return initSuccess;
 }
