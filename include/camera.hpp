@@ -5,13 +5,15 @@
 class Camera {
     public:
 
-    float Yaw;
-    float Pitch;
+    float yaw;
+    float pitch;
 
     glm::vec3 cameraPos;
     glm::vec3 cameraFront;
     glm::vec3 cameraUp;
+
     const float cameraSpeed = 3.0f;
+    const float cameraSensitivity = 0.1f;
 
     glm::vec3 direction;
 
@@ -19,5 +21,5 @@ class Camera {
 
     void processInput(GLFWwindow* window, float deltaTime);
 
-    glm::mat4 getViewMatrix() const;
+    [[nodiscard]] glm::mat4 getViewMatrix() const;
 };

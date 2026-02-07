@@ -1,12 +1,20 @@
 #include <camera.hpp>
 #include "GLFW/glfw3.h"
 #include "glm/ext/matrix_transform.hpp"
+#include "glm/gtc/quaternion.hpp"
 
 Camera::Camera()
-:   cameraPos(0.0f, 0.0f, 3.0f),
+:   yaw(-90),
+    pitch(0),
+
+    cameraPos(0.0f, 0.0f, 3.0f),
     cameraFront(0.0f, 0.0f, -1.0f),
-    cameraUp(0.0f, 1.0f, 0.0f)
-{}
+    cameraUp(0.0f, 1.0f, 0.0f) {
+
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch)) * cos(glm::radians(pitch));
+    direction.z = sin(glm::radians(yaw));
+}
 
 void Camera::processInput(GLFWwindow* window, float deltaTime) {
     const float normalSpeed = cameraSpeed * deltaTime;
