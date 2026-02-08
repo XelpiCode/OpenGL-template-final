@@ -3,12 +3,30 @@
 #include <opengl_utils.hpp>
 #include <iostream>
 #include <camera.hpp>
+#include <stb_image/stb_image.h>
 
 void cleanupOpenGL(const openglState &state) {
     glfwDestroyWindow(state.window);
     glfwTerminate();
 }
 
+void setWindowIcon(const openglState &state) {
+    GLFWimage images[1];
+    images[0].pixels = stbi_load(
+        RESOURCES_PATH "Polyblast_logo.png",
+        &images[0].width,
+        &images[0].height,
+        nullptr,
+        4
+    );
+
+    if (images[0].pixels) {
+        glfwSetWindowIcon(state.window, 1, images);
+        stbi_image_free(images[0].pixels);
+    } else {
+        std::cout << "Failed to load window icon\n";
+    }
+}
 
 bool initOpenGL(openglState &state) {
     bool initSuccess = true;
@@ -31,6 +49,8 @@ bool initOpenGL(openglState &state) {
     }
 
     glfwSetWindowUserPointer(state.window, &state);
+
+    setWindowIcon(state);
 
     glViewport(0, 0, state.width, state.height);
 

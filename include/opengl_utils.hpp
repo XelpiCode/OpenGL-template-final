@@ -15,5 +15,6 @@ struct openglState {
 };
 
 bool initOpenGL(openglState &state);
+void setWindowIcon(const openglState &state);
 void cleanupOpenGL(const openglState &state);
 void processInput(GLFWwindow *window);
