@@ -15,18 +15,18 @@ class Camera {
     float lastX, lastY;
 
     const float cameraSpeed = 3.0f;
-    const float cameraSensitivity = 0.1f;
+    const float cameraSensitivity = 0.08f;
 
     float camFov;
 
-    glm::vec3 direction{};
+    glm::vec3 direction;
     bool firstMouse = true;
 
     Camera(int width, int height, float fov);
 
     void processInput(GLFWwindow* window, float deltaTime);
-
-    void processMouseScroll(float yoffset);
+    void processMouseScroll(float ypos);
+    void processMouseMovement(float xpos, float ypos);
 
     [[nodiscard]] glm::mat4 getViewMatrix() const;
 };
