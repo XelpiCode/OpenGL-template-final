@@ -17,11 +17,11 @@ Camera::Camera(int width, int height)
     direction.y = sin(glm::radians(pitch)) * cos(glm::radians(pitch));
     direction.z = sin(glm::radians(yaw));
 
-    lastX = width / 2.0f;
-    lastY = height / 2.0f;
+    lastX = static_cast<float>(width) / 2.0f;
+    lastY = static_cast<float>(height) / 2.0f;
 }
 
-void Camera::processInput(GLFWwindow* window, float deltaTime) {
+void Camera::processInput(GLFWwindow* window, const float deltaTime) {
     const float normalSpeed = cameraSpeed * deltaTime;
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
@@ -48,7 +48,7 @@ glm::mat4 Camera::getViewMatrix() const {
     return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 }
 
-void mouseCallback(GLFWwindow* window, double xpos, double ypos) {
+void mouseCallback(GLFWwindow* window, const double xpos, const double ypos) {
 
     auto* state = static_cast<openglState*>(glfwGetWindowUserPointer(window));
 
