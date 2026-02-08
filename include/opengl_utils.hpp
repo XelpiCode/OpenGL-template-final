@@ -8,8 +8,8 @@ struct openglState {
     int height;
     Camera camera;
 
-    openglState(int width, int height)
-        : width(width), height(height), camera(width, height)
+    openglState(const int width, const int height)
+        : width(width), height(height), camera(width, height, 45.0f)
     {}
 
 };

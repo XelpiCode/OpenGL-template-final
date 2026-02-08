@@ -46,6 +46,7 @@ bool initOpenGL(openglState &state) {
 
     // call mouse_callback when mouse moves
     glfwSetCursorPosCallback(state.window, mouseCallback);
+    glfwSetScrollCallback(state.window, scrollCallback);
 
     return initSuccess;
 }

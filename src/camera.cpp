@@ -5,13 +5,14 @@
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/gtc/quaternion.hpp"
 
-Camera::Camera(int width, int height)
+Camera::Camera(int width, int height, float fov)
 :   yaw(-90),
     pitch(0),
 
     cameraPos(0.0f, 0.0f, 3.0f),
     cameraFront(0.0f, 0.0f, -1.0f),
-    cameraUp(0.0f, 1.0f, 0.0f) {
+    cameraUp(0.0f, 1.0f, 0.0f),
+    camFov(fov) {
 
     direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     direction.y = sin(glm::radians(pitch)) * cos(glm::radians(pitch));
@@ -46,6 +47,21 @@ void Camera::processInput(GLFWwindow* window, const float deltaTime) {
 
 glm::mat4 Camera::getViewMatrix() const {
     return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+}
+
+void Camera::processMouseScroll(const float yoffset) {
+    camFov -= static_cast<float>(yoffset);
+    if (camFov < 1.0f) {
+        camFov = 1.0f;
+    }
+    if (camFov > 45.0f) {
+        camFov = 45.0f;
+    }
+}
+
+void scrollCallback(GLFWwindow* window, double xoffset, const double yoffset) {
+    auto* state = static_cast<openglState*>(glfwGetWindowUserPointer(window));
+    state->camera.processMouseScroll(static_cast<float>(yoffset));
 }
 
 void mouseCallback(GLFWwindow* window, const double xpos, const double ypos) {

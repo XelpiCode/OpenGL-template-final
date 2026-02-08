@@ -128,22 +128,12 @@ int main() {
 
 #pragma endregion
 
-    // projection
-    const glm::mat4 projection = glm::perspective(
-        glm::radians(45.0f),
-        static_cast<float>(state.width) / static_cast<float>(state.height),
-        0.1f,
-        100.0f
-    );
-
     Shader.use();
-
-    Shader.setMat4("projection", projection);
 
     while (!glfwWindowShouldClose(state.window)) {
 
         // delta time
-        float currentFrame = static_cast<float>(glfwGetTime());
+        const auto currentFrame = static_cast<float>(glfwGetTime());
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
@@ -174,13 +164,22 @@ int main() {
         for (unsigned int i = 0; i < 10; i++) {
             auto model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
-            const float angle = 20.0f * i;
+            const float angle = 20.0f * static_cast<float>(i);
             model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             Shader.setMat4("model", model);
             glDrawArrays(GL_TRIANGLES, 0, 36);
         }
 
         #pragma endregion
+
+        // projection
+        const glm::mat4 projection = glm::perspective(
+            glm::radians(state.camera.camFov),
+            static_cast<float>(state.width) / static_cast<float>(state.height),
+            0.1f,
+            100.0f
+        );
+        Shader.setMat4("projection", projection);
 
         // Draw triangles
         // glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, nullptr);
