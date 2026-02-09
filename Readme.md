@@ -2,4 +2,6 @@
   <img src="resources/Logo/Polyblast_full_logo.svg" width="450" alt="Polyblast">
 </p>
 
-Polyblast, a game engine in development. And also my passion project with Opengl :)
+<p align="center">
+  Polyblast is a game engine in development, and also my passion project built with OpenGL :)
+</p>
