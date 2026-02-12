@@ -6,8 +6,12 @@
   Polyblast is a game engine in development, and also my passion project built with OpenGL :)
 </p>
 
-### Why the name "Polyblast"?
+<br>
 
-**Poly** represents versatility and flexibility,  
-while **Blast** reflects speed, power, and performance \
-together symbolizing a fast, flexible engine built for anything.
+<h3 align="center">Why the name "Polyblast"?</h3>
+
+<p align="center">
+  <b>Poly</b> represents versatility and flexibility,<br>
+  while <b>Blast</b> reflects speed, power, and performance<br>
+  together symbolizing a fast, flexible engine built for anything.
+</p>
